@@ -12,8 +12,8 @@ public class MouseLook : MonoBehaviour
     }
 
     public RotationAxes axes = RotationAxes.MouseXAndY;
-    public float sensitivityHor = 9.0f; // Horizontal
-    public float sensitivityVert = 9.0f; // Vertical
+    public float sensitivityHor = 4.0f; // Horizontal
+    public float sensitivityVert = 4.0f; // Vertical
     public float minimumVert = -45.0f;
     public float maximumVert = 45.0f;
 
@@ -21,8 +21,11 @@ public class MouseLook : MonoBehaviour
 
     void Start()
     {
+        Debug.Log("sensitivityHor = " + sensitivityHor);
+        Debug.Log("sensitivityVert = " + sensitivityVert);
         //Aggancia il mouse al centro della finestra di gioco e nascondilo
         Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         // CursorLockMode.None -> cursore libero (default)
         // CursorLockMode.Locked -> bloccato al centro (FPS)
         // CursorLockMode.Confined -> confinato nella finestra
