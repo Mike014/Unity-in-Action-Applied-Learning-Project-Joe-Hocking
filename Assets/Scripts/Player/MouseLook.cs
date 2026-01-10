@@ -21,6 +21,9 @@ public class MouseLook : MonoBehaviour
 
     void Start()
     {
+        //Aggancia il mouse al centro della finestra di gioco e nascondilo
+        Cursor.lockState = CursorLockMode.Locked;
+        
         // Bloccare la rotazione da fisica (se c’è Rigidbody)
         // In FPS reali non vuoi che la fisica faccia ruotare il player (tumble, rimbalzi ecc.).
         // Quindi congeli la rotazione del Rigidbody se presente.
