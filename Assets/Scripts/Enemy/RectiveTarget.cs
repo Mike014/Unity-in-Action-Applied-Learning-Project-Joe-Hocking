@@ -5,6 +5,12 @@ public class ReactiveTarget : MonoBehaviour
 {
     public void ReactToHit()
     {
+        WanderingAI behavior = GetComponent<WanderingAI>();
+
+        if(behavior != null)
+        {
+            behavior.SetAlive(false);
+        }
         StartCoroutine(Die());
     }
 
