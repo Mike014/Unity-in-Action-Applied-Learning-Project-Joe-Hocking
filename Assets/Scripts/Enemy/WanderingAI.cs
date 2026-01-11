@@ -10,6 +10,13 @@ public class WanderingAI : MonoBehaviour
 
     private bool _alive;
 
+    [SerializeField] private GameObject fireballPrefab;
+    private GameObject _fireball;
+
+    [SerializeField] private float fireInterval = 1.0f; // seconds between shots
+    private float _lastFireTime = 0f;
+    [SerializeField] private float fireSpeed = 10f;
+
     void Start()
     {
         _alive = true;
@@ -29,16 +36,33 @@ public class WanderingAI : MonoBehaviour
             //SphereCast per "vedere" ostacolo con volume
             if (Physics.SphereCast(ray, 0.75f, out hit))
             {
-                if (hit.distance < obstacleRange)
+                GameObject hitobject = hit.transform.gameObject;
+                if (hitobject.GetComponent<PlayerCharacter>())
                 {
-                    if (hit.distance < obstacleRange)
+                    // Fire at fixed intervals while the player is in sight
+                    if (Time.time - _lastFireTime >= fireInterval)
                     {
-                        float angle = Random.Range(-110, 110);
-                        transform.Rotate(0, angle, 0);
+                        GameObject fireball = Instantiate(fireballPrefab) as GameObject;
+                        fireball.transform.position = transform.TransformPoint(Vector3.forward * 1.5f);
+                        fireball.transform.rotation = transform.rotation;
+
+                        // If the prefab has a Rigidbody, give it forward velocity
+                        Rigidbody rb = fireball.GetComponent<Rigidbody>();
+                        if (rb != null)
+                        {
+                            rb.velocity = transform.forward * fireSpeed;
+                        }
+
+                        _lastFireTime = Time.time;
+                        _fireball = fireball; // keep a reference if needed elsewhere
                     }
                 }
+                else if (hit.distance < obstacleRange)
+                {
+                    float angle = Random.Range(-110, 110);
+                    transform.Rotate(0, angle, 0);
+                }
             }
-
         }
     }
 
